@@ -1,0 +1,35 @@
+vamos fazer APIs integradas para treino na academia
+uma api de localização que mostra academias por perto
+uma api que monta o treino da pessoa
+uma api que monta uma playlist
+mostra lojas de suplemento
+treino em casa e na academia
+atestado de ia na responsividade 
+API de treino workout API
+\
+
+
+ID grupo muscular trapezio = cf4d95fe-99c2-4ef9-a347-3fd0294afd6c
+shoulders = "88a9cd0f-44f0-49da-af4f-a7cf12c88f30
+
+https://api.workoutapi.com/exercises
+
+88a9cd0f-44f0-49da-af4f-a7cf12c88f30
+
+plano nao cobre oque quer
+
+segunda opcao a wger 
+https://wger.de/api/v2/
+tolken de acesso a wger 
+eyJhbGciOiJSUzI1NiIsImtpZCI6IjVXVmlLSk10MVZHU3BXWE1BNkJEYnlpV2VkR1lvaVFHUFZ3UDFLMGtoUnciLCJ0eXAiOiJKV1QifQ.eyJpYXQiOjE3OTAxOTA0NTIsImV4cCI6MTgwMDU1ODQ1Miwic2lkIjoiSHcySnVRZnIwOVJYeFJTWmhrZlhoOHNYQXVwMUdtWXY1TUdFNGZEbWdIUW9IbjMxUnNzenJIczlUWUowUllWdCIsImp0aSI6ImRmMzJlY2UzLTg0YWYtNDBjOC1iYjAwLTg2MDZlNDRiYTdlYSIsInRva2VuX3VzZSI6InJlZnJlc2giLCJzdWIiOiIyNjQ1MTkifQ.Vt5g2j7V5hm-MUtiznZ7w5Wj0AAryMcYg-Ma7JPWK2C6IOhKPcfdMCL_xf-GB-NQ-Vom02UyBS5lWF0Tcp0EdMwXMMTrPurkuNU0Ng34E4I___vxGa0IEoqAhefyr_mNIdNiuwf_QlkXrPzy-1jqpR4hbqoE85xO_uqHrdYTU4XNiufG7D9tzxoIyDrSkNMUfh53a5lhIZXUZHMPIsJJdlCncKIxgPtTYwsNsNHxNGk30tPMDc4sMNEDMvJ9jIHBczZw3a_-ZxmWZyco82gADbBzkfaVbEmoG1FmiunLUUr2APZrJ7ubGyyrsl5_kBYo1FML7xvl6US-meGWMfHEnA
+
+api key d9d0ecac0aceecfae90d7b23f2642cea50a22bb8
+
+api de localização geopify  f32fac84e53d4bd38835ba1dbb4b095f
+
+
+spotify 1c1c9a2ca80848afa16267daed126027
+spak_QaCK2TyaBnAtzpc5QVgJi25LpJQahnil
+
+
+chave youtube AIzaSyAP-X-T1VqmJ5m1kafvDWZnOSgAKXrHQB0

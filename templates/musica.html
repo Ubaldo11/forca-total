@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Músicas - Força Total</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: url('/static/images/Academia.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            padding: 40px 20px;
+        }
+
+        .topo {
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .topo h1 {
+            color: #FFD700;
+            font-size: 26px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .topo a {
+            color: #FF6B00;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            padding: 10px 18px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .topo a:hover {
+            background: rgba(255, 215, 0, 0.1);
+            color: #FFD700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Duas colunas: player + fila */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .painel {
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.15);
+            border: 1px solid rgba(255, 215, 0, 0.25);
+        }
+
+        /* Player */
+        .player-wrap {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #000;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .player-wrap iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .info {
+            margin-top: 20px;
+        }
+
+        .info .rotulo {
+            color: #FF6B00;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+        }
+
+        .info h2 {
+            color: #FFD700;
+            font-size: 22px;
+            letter-spacing: 1px;
+            line-height: 1.3;
+        }
+
+        .info .canal {
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 14px;
+            margin-top: 6px;
+        }
+
+        .controles {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .controles button {
+            flex: 1;
+            background: transparent;
+            color: #FF6B00;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .controles button:hover {
+            background: rgba(255, 215, 0, 0.1);
+            color: #FFD700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Fila */
+        .fila h3 {
+            color: #FFD700;
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .fila-lista {
+            max-height: 520px;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+
+        .fila-lista::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .fila-lista::-webkit-scrollbar-thumb {
+            background: rgba(255, 215, 0, 0.3);
+            border-radius: 3px;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .item:hover {
+            background: rgba(255, 215, 0, 0.08);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+
+        .item.ativo {
+            background: rgba(255, 107, 0, 0.15);
+            border-color: #FF6B00;
+            box-shadow: 0 0 20px rgba(255, 107, 0, 0.3);
+        }
+
+        .item .num {
+            color: rgba(255, 215, 0, 0.6);
+            font-size: 13px;
+            width: 22px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .item.ativo .num {
+            color: #FF6B00;
+        }
+
+        .item img {
+            width: 64px;
+            height: 44px;
+            object-fit: cover;
+            border-radius: 6px;
+            background: #000;
+            flex-shrink: 0;
+        }
+
+        .item .texto {
+            min-width: 0;
+        }
+
+        .item .nome {
+            color: #FFD700;
+            font-size: 14px;
+            line-height: 1.3;
+            display: -webkit-box;
+
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .item .autor {
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 12px;
+            margin-top: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Erro / vazio */
+        .vazio {
+            max-width: 600px;
+            margin: 60px auto;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            color: #FFD700;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .fila-lista {
+                max-height: 400px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .topo {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .topo h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="topo">
+        <h1>Músicas para o Treino</h1>
+        <a href="{{ url_for('index') }}">← Voltar</a>
+    </div>
+
+    {% if erro or not videos %}
+        <div class="vazio">
+            <p>{{ erro or "Nenhuma música encontrada." }}</p>
+        </div>
+    {% else %}
+        <div class="container">
+
+            <!-- Coluna do player -->
+            <div class="painel">
+                <div class="player-wrap">
+                    <div id="player"></div>
+                </div>
+
+                <div class="info">
+                    <div class="rotulo">Tocando agora</div>
+                    <h2 id="titulo-atual"></h2>
+                    <div class="canal" id="canal-atual"></div>
+                </div>
+
+                <div class="controles">
+                    <button onclick="anterior()">⏮ Anterior</button>
+                    <button onclick="proxima()">Próxima ⏭</button>
+                </div>
+            </div>
+
+            <!-- Coluna da fila -->
+            <div class="painel fila">
+                <h3>Fila ({{ videos|length }})</h3>
+                <div class="fila-lista">
+                    {% for v in videos %}
+                        <div class="item" id="item-{{ loop.index0 }}" onclick="tocarIndice({{ loop.index0 }})">
+                            <div class="num">{{ loop.index }}</div>
+                            {% if v.imagem %}
+                                <img src="{{ v.imagem }}" alt="">
+                            {% endif %}
+                            <div class="texto">
+                                <div class="nome">{{ v.titulo }}</div>
+                                <div class="autor">{{ v.canal }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+
+        <script src="https://www.youtube.com/iframe_api"></script>
+        <script>
+            const videos = {{ videos|tojson }};
+            let atual = 0;
+            let player;
+
+            function onYouTubeIframeAPIReady() {
+                player = new YT.Player('player', {
+                    videoId: videos[0].video_id,
+                    playerVars: { rel: 0 },
+                    events: {
+                        onStateChange: function (e) {
+                            // terminou a música: vai para a próxima
+                            if (e.data === YT.PlayerState.ENDED) proxima();
+                        },
+                        onError: function () {
+                            // vídeo bloqueado ou indisponível: pula
+                            proxima();
+                        }
+                    }
+                });
+                atualizarInfo();
+            }
+
+            function atualizarInfo() {
+                document.getElementById('titulo-atual').textContent = videos[atual].titulo;
+                document.getElementById('canal-atual').textContent = videos[atual].canal;
+
+                document.querySelectorAll('.item').forEach(i => i.classList.remove('ativo'));
+                const item = document.getElementById('item-' + atual);
+                item.classList.add('ativo');
+                item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }
+
+            function tocarIndice(i) {
+                atual = i;
+                player.loadVideoById(videos[atual].video_id);
+                atualizarInfo();
+            }
+
+            function proxima() {
+                tocarIndice((atual + 1) % videos.length);
+            }
+
+            function anterior() {
+                tocarIndice((atual - 1 + videos.length) % videos.length);
+            }
+        </script>
+    {% endif %}
+
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercícios de {{ grupo|capitalize }} - Força Total</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: url('/static/images/Academia.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            padding: 40px 20px;
+        }
+
+        .topo {
+            max-width: 1100px;
+            margin: 0 auto 30px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .topo h1 {
+            color: #FFD700;
+            font-size: 26px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .topo a {
+            color: #FF6B00;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            padding: 10px 18px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .topo a:hover {
+            background: rgba(255, 215, 0, 0.1);
+            color: #FFD700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .lista {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.15);
+            border: 1px solid rgba(255, 215, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.35);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            background: #000;
+            cursor: zoom-in;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .card .conteudo {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .card h3 {
+            color: #FFD700;
+            font-size: 18px;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .card .descricao {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 14px;
+            line-height: 1.6;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+
+        .card .descricao::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .card .descricao::-webkit-scrollbar-thumb {
+            background: rgba(255, 215, 0, 0.3);
+            border-radius: 3px;
+        }
+
+        .vazio {
+            max-width: 600px;
+            margin: 60px auto;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            color: #FFD700;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        /* Modal de imagem ampliada */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            cursor: zoom-out;
+        }
+
+        .modal.ativo {
+            display: flex;
+        }
+
+        .modal img {
+            max-width: 95%;
+            max-height: 95%;
+            border-radius: 10px;
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.4);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="topo">
+        <h1>Exercícios de {{ grupo|capitalize }}</h1>
+        <a href="{{ url_for('treino') }}">← Trocar grupo</a>
+    </div>
+
+    {% if exercicios %}
+        <div class="lista">
+            {% for ex in exercicios %}
+                <div class="card">
+                    {% if ex.imagem %}
+                        <img src="{{ ex.imagem }}" alt="{{ ex.nome }}"
+                             onclick="abrirModal('{{ ex.imagem }}')">
+                    {% endif %}
+                    <div class="conteudo">
+                        <h3>{{ ex.nome }}</h3>
+                        <div class="descricao">{{ ex.descricao }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="vazio">
+            <p>Nenhum exercício encontrado para "{{ grupo }}".</p>
+        </div>
+    {% endif %}
+
+    <div class="modal" id="modal" onclick="fecharModal()">
+        <img id="modal-img" src="" alt="">
+    </div>
+
+    <script>
+        function abrirModal(src) {
+            const modal = document.getElementById('modal');
+            const img = document.getElementById('modal-img');
+            img.src = src;
+            modal.classList.add('ativo');
+        }
+
+        function fecharModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('ativo');
+            document.getElementById('modal-img').src = '';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') fecharModal();
+        });
+    </script>
+
+</body>
+</html>

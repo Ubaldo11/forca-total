@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treino - Força Total</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('/static/images/Academia.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+        
+        form {
+            background: rgba(0, 0, 0, 0.85);
+            padding: 40px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        form h2 {
+            color: #FFD700;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            letter-spacing: 3px;
+        }
+        
+        form input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        form input:focus {
+            outline: none;
+            border-color: #FFD700;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+        }
+        
+        form input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        form button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #FFD700, #FF6B00);
+            color: black;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        form button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+
+        form select{
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        form select:focus{
+            border-color: rgba(255, 255, 255, 0.05);;
+            color: #FF6B00;
+            background: rgba(255, 255, 255, 0.05);
+        }
+       
+        form select option {
+            background: #1a1a1a;
+            color: #FF6B00;
+
+        }
+        
+        
+    </style>
+
+</head>
+<body>
+    
+    <form action="{{ url_for('exercicios') }}" method="POST">
+        <h2> Monte Seu Treino </h2>
+        
+        <select name="grupo_muscular" id="grupo_muscular">
+            <option value="peito"><p>Peito</p></option>
+            <option value="ombro">Ombro</option>
+            <option value="bracos">Braços</option>
+            <option value="costa">Costa</option>
+            <option value="perna">Perna</option>
+            <option value="abs">Abdomen</option>
+            <option value="panturrilha">Panturrilha</option>
+            
+        </select>
+
+        <button type="submit">Enviar</button>
+        </form>
+    
+        
+
+</body>
+</html>
