@@ -3,13 +3,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const listaContainer = document.getElementById("lista-academias");
     const erroContainer = document.getElementById("container-erro");
 
+    // 1. Verifica se a API é suportada pelo navegador
     if (!navigator.geolocation) {
         statusText.innerText = "Geolocalização não é suportada pelo seu navegador.";
         return;
     }
 
-    // Lê a URL do endpoint configurada no dataset do elemento HTML
+    // 2. Alerta caso o ambiente não seja seguro (HTTPS ou Localhost)
+    if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        statusText.innerText = "A geolocalização exige uma conexão segura (HTTPS ou localhost).";
+        return;
+    }
+
     const endpointUrl = statusText.dataset.url;
+
+    const opcoes = {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+    };
 
     navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -35,9 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 statusText.innerText = "Exibindo academias próximas à sua posição exata.";
-                listaContainer.innerHTML = ""; // Limpa a lista
+                listaContainer.innerHTML = "";
 
-                // Renderiza cada academia recebida no JSON
                 data.academias.forEach(academia => {
                     const card = document.createElement("div");
                     card.className = "academia";
@@ -53,26 +64,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             })
             .catch(err => {
-                console.error(err);
+                console.error("Erro na requisição Fetch:", err);
                 statusText.innerText = "Erro ao se comunicar com o servidor.";
             });
         },
         (error) => {
+            console.warn("Erro no getCurrentPosition:", error);
             switch(error.code) {
                 case error.PERMISSION_DENIED:
-                    statusText.innerText = "Você precisa permitir o acesso à localização no navegador para ver as academias.";
+                    statusText.innerText = "Permissão negada. Verifique os bloqueios de localização na barra de endereço do navegador.";
                     break;
                 case error.POSITION_UNAVAILABLE:
-                    statusText.innerText = "Informações de localização indisponíveis.";
+                    statusText.innerText = "Sinal de localização indisponível no momento.";
                     break;
                 case error.TIMEOUT:
-                    statusText.innerText = "A requisição para obter a localização expirou.";
+                    statusText.innerText = "Tempo limite esgotado ao tentar obter a localização.";
                     break;
                 default:
                     statusText.innerText = "Erro ao obter localização.";
                     break;
             }
         },
-        { enableHighAccuracy: true, timeout: 10000 }
+        opcoes
     );
 });
