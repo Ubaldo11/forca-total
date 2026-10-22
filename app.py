@@ -88,27 +88,22 @@ def exercicios():
 @app.route('/loc', methods=['GET', 'POST'])
 @login_obrigatorio
 def loc():
-    # 1. Descobre a localização do usuário pelo IP
-    local = localizacao_por_ip()
-    
-    lista = None
-    erro = None
-    
-    if local:
-        # 2. Busca academias próximas usando Geoapify
-        lista = buscar_academias(local["lat"], local["lon"], raio_metros=5000)
+    if request.method == 'POST':
+        dados = request.get_json() or {}
+        lat = dados.get('latitude')
+        lon = dados.get('longitude')
         
-        if not lista:
-            erro = "Nenhuma academia encontrada na sua região."
-    else:
-        erro = "Não foi possível obter sua localização."
-    
-    return render_template(
-        'academias.html',
-        academias=lista,
-        local=local,
-        erro=erro
-    )
+        if lat and lon:
+            lista = buscar_academias(lat, lon, raio_metros=5000)
+            if not lista:
+                return jsonify({'erro': 'Nenhuma academia encontrada na sua região.'}), 404
+            
+            return jsonify({'academias': lista})
+        
+        return jsonify({'erro': 'Coordenadas não recebidas corretamente.'}), 400
+
+    # Requisição GET: apenas carrega a estrutura HTML da página
+    return render_template('academias.html')
 
 @app.route('/musica')
 @login_obrigatorio

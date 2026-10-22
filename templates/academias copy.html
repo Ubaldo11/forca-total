@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Encontre Academia - Força Total</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-image: url('/static/images/Academia.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            padding: 40px 20px;
+        }
+        
+        .container { max-width: 900px; margin: 0 auto; }
+        
+        h1 {
+            color: #FFD700;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 36px;
+        }
+        
+        .local {
+            color: #aaa;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .lista {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .academia {
+            background: rgba(0, 0, 0, 0.85);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-left: 4px solid #FFD700;
+            transition: 0.3s;
+        }
+        
+        .academia:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+        
+        .academia h2 {
+            color: #FFD700;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .academia p {
+            color: #aaa;
+            font-size: 13px;
+            margin: 4px 0;
+        }
+        
+        .academia a {
+            color: #FF6B00;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        
+        .academia a:hover { text-decoration: underline; }
+        
+        .erro {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            color: #ff6666;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .voltar {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            color: #FFD700;
+            text-decoration: none;
+            padding: 15px;
+            border: 2px solid #FFD700;
+            border-radius: 25px;
+            transition: 0.3s;
+        }
+        
+        .voltar:hover { background: #FFD700; color: black; }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <h1>Academias Próximas</h1>
+        
+        {% if local %}
+            <p class="local">{{ local.cidade }}, {{ local.regiao }} - {{ local.pais }}</p>
+        {% endif %}
+        
+        {% if erro %}
+            <div class="erro">{{ erro }}</div>
+        {% endif %}
+        
+        {% if academias %}
+            <div class="lista">
+                {% for academia in academias %}
+                    <div class="academia">
+                        <h2>{{ academia.nome }}</h2>
+                        {% if academia.endereco %}
+                            <p>{{ academia.endereco }}</p>
+                        {% endif %}
+                        {% if academia.telefone %}
+                            <p>Telefone: {{ academia.telefone }}</p>
+                        {% endif %}
+                        {% if academia.site %}
+                            <p>Site: <a href="{{ academia.site }}" target="_blank">{{ academia.site }}</a></p>
+                        {% endif %}
+                        {% if academia.distancia %}
+                            <p>Distância: {{ "%.0f"|format(academia.distancia) }} m</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <a href="{{ url_for('index') }}" class="voltar">Voltar para Home</a>
+    </div>
+    
+</body>
+</html>

@@ -25,7 +25,7 @@
             font-size: 36px;
         }
         
-        .local {
+        .status-msg {
             color: #aaa;
             text-align: center;
             margin-bottom: 30px;
@@ -79,6 +79,8 @@
             padding: 20px;
             border-radius: 10px;
             text-align: center;
+            margin-bottom: 20px;
+            display: none; /* Exibido via JS se houver erro */
         }
         
         .voltar {
@@ -101,38 +103,18 @@
     <div class="container">
         <h1>Academias Próximas</h1>
         
-        {% if local %}
-            <p class="local">{{ local.cidade }}, {{ local.regiao }} - {{ local.pais }}</p>
-        {% endif %}
+        <p id="status" class="status-msg" data-url="{{ url_for('loc') }}">
+            Solicitando permissão de localização do seu navegador...
+        </p>
         
-        {% if erro %}
-            <div class="erro">{{ erro }}</div>
-        {% endif %}
+        <div id="container-erro" class="erro"></div>
         
-        {% if academias %}
-            <div class="lista">
-                {% for academia in academias %}
-                    <div class="academia">
-                        <h2>{{ academia.nome }}</h2>
-                        {% if academia.endereco %}
-                            <p>{{ academia.endereco }}</p>
-                        {% endif %}
-                        {% if academia.telefone %}
-                            <p>Telefone: {{ academia.telefone }}</p>
-                        {% endif %}
-                        {% if academia.site %}
-                            <p>Site: <a href="{{ academia.site }}" target="_blank">{{ academia.site }}</a></p>
-                        {% endif %}
-                        {% if academia.distancia %}
-                            <p>Distância: {{ "%.0f"|format(academia.distancia) }} m</p>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
+        <div id="lista-academias" class="lista"></div>
         
         <a href="{{ url_for('index') }}" class="voltar">Voltar para Home</a>
     </div>
-    
+
+    <!-- Importação do script externo -->
+    <script src="{{ url_for('static', filename='js/academias.js') }}"></script>
 </body>
 </html>
